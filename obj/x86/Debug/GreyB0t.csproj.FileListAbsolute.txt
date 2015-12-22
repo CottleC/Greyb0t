@@ -1,0 +1,20 @@
+C:\Users\Sylv\AppData\Local\Temporary Projects\GreyB0t\bin\Debug\GreyB0t.exe
+C:\Users\Sylv\AppData\Local\Temporary Projects\GreyB0t\bin\Debug\GreyB0t.pdb
+C:\Users\Sylv\AppData\Local\Temporary Projects\GreyB0t\obj\x86\Debug\GreyB0t.exe
+C:\Users\Sylv\AppData\Local\Temporary Projects\GreyB0t\obj\x86\Debug\GreyB0t.pdb
+C:\Users\Gypaetus\Desktop\GreyB0t\obj\x86\Debug\GreyB0t.exe
+C:\Users\Gypaetus\Desktop\GreyB0t\obj\x86\Debug\GreyB0t.pdb
+C:\Users\Gypaetus\Desktop\GreyB0t\bin\Debug\GreyB0t.exe
+C:\Users\Gypaetus\Desktop\GreyB0t\bin\Debug\GreyB0t.pdb
+C:\Users\Gypaetus\Desktop\GreyB0t\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Gypaetus\Desktop\GreyB0t\bin\Debug\Newtonsoft.Json.pdb
+C:\Users\Gypaetus\Desktop\GreyB0t\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Gypaetus\Desktop\GreyB0t\obj\x86\Debug\GreyB0t.csprojResolveAssemblyReference.cache
+C:\Users\Sylv\Desktop\GreyB0t\obj\x86\Debug\GreyB0t.exe
+C:\Users\Sylv\Desktop\GreyB0t\obj\x86\Debug\GreyB0t.pdb
+C:\Users\Sylv\Desktop\GreyB0t\bin\Debug\GreyB0t.exe
+C:\Users\Sylv\Desktop\GreyB0t\bin\Debug\GreyB0t.pdb
+C:\Users\Sylv\Desktop\GreyB0t\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Sylv\Desktop\GreyB0t\bin\Debug\Newtonsoft.Json.pdb
+C:\Users\Sylv\Desktop\GreyB0t\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Sylv\Desktop\GreyB0t\obj\x86\Debug\GreyB0t.csprojResolveAssemblyReference.cache
