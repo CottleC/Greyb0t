@@ -31,6 +31,7 @@ namespace GreyB0t
                 {
                     //get rid of the !vote part so we can see what vote they made
                     String request = m.tell.Replace("!permit ", "");
+                    request = request.ToLower();
                     Console.WriteLine(m.username + " requested a permit for: " + m.tell);
                     if (m.tell.Count() > 1)
                     {
@@ -52,25 +53,34 @@ namespace GreyB0t
                 }
                 else if(kvp.Key.Equals("*"))
                 {
-                    if ((m.tell.Contains(".com")) || (m.tell.Contains(".net")) || (m.tell.Contains(".org")) || (m.tell.Contains(".eu")) || (m.tell.Contains(".co.uk")))
+                    //Console.WriteLine("Generic tell");
+                    if ((m.tell.Contains(".com")) || (m.tell.Contains(".tv")) || (m.tell.Contains(".net")) || (m.tell.Contains(".org")) || (m.tell.Contains(".eu")) || (m.tell.Contains(".co.uk") || (m.tell.Contains("youtu.be")) || (m.tell.Contains(".us"))))
                     {
-                        if( (permits.ContainsKey(m.username)) )
+                        if ((permits.ContainsKey(m.username)))
                         {
                             TimeSpan timeSince = DateTime.Now - permits[m.username];
                             if (timeSince.Seconds < timeAllowed)
-                            {
+                            {   //inform the user that they consumed a permit
                                 String returnMsg = "NULL msg from ComPermit";
                                 returnMsg = "/me says: " + m.username + " consumed a permit to say this: " + m.tell;
-                                MessageProcessor.pendingAllspeaks.Enqueue(returnMsg);
-                                permits.Remove(m.username);
-                            }
-                            else
-                            {
-                                String returnMsg = "pssst! you don't have a !permit to post links, or it expired!["+timeSince.Seconds+"/"+timeAllowed+"]";
                                 KeyValuePair<String, String> whisperKvp = new KeyValuePair<string, string>(returnMsg, m.username);
                                 MessageProcessor.pendingWhispers.Enqueue(whisperKvp);
                                 permits.Remove(m.username);
                             }
+                            else
+                            {   //oh noes, you had a permit but it became lost to the ravages of time
+                                String returnMsg = "pssst! your link permit, it expired![" + timeSince.Seconds + "/" + timeAllowed + "]";
+                                KeyValuePair<String, String> whisperKvp = new KeyValuePair<string, string>(returnMsg, m.username);
+                                MessageProcessor.pendingWhispers.Enqueue(whisperKvp);
+                                permits.Remove(m.username);
+                            }
+                        }
+                        else
+                        {
+                            //You didn't have a permit to post a link
+                            String returnMsg = "NULL msg from ComPermit";
+                            returnMsg = ".timeout " + m.username + " 1";
+                            MessageProcessor.pendingAllspeaks.Enqueue(returnMsg);
                         }
                     }
                 }

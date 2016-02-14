@@ -74,20 +74,38 @@ namespace GreyB0t
 
         public void ProcessingLoop()
         {
-            while (sock.Connected)
+            try
             {
-                for (bulwark = input.ReadLine(); ; bulwark = input.ReadLine())
+                while (sock.Connected)
                 {
-                    Console.WriteLine(bulwark);
-                    Parse(bulwark);
+                    Console.WriteLine("\n*****\n*****\n*****Connectin Established" + (isWhisperBot ? "(Whisper)":"(Public)")+"\n*****\n*****\n*****");
+                    for (bulwark = input.ReadLine(); ; bulwark = input.ReadLine())
+                    {
+                        if (bulwark != null)
+                        {
+                            if (bulwark.Count() > 1)//getting a lot of dead stream data from server
+                            {
+                                //Console.WriteLine("ProcessingLoop bulwark:" + bulwark);
+                                Parse(bulwark);
+                            }
+                        }
+                    }
+                }
+
+                while (!sock.Connected)
+                {
+                    state = 0;
+                    Console.WriteLine("\n*****\n*****\n*****Connectin Lost" + (isWhisperBot ? "(Whisper)" : "(Public)") + "\n*****\n*****\n*****");
+                    break;
                 }
             }
-
-            while (!sock.Connected)
+            catch (Exception e)
             {
-                state = 0;
-                Console.Write("\n**********Connection Lost**********");
-                break;
+                Console.WriteLine("ProcessingLoopException");
+                Console.WriteLine("Sleeping 10 and trying again...");
+                Thread.Sleep(10);
+                sock.Close();
+                this.Connect();
             }
         }
 
@@ -147,9 +165,23 @@ namespace GreyB0t
          */
         private void ConnectMsg()
         {
+            /*   _,-,
+             *  T_  |
+             *  ||`-'
+             *  ||
+             *  ||
+             *  ~~
+             */
             //must sebd caps request to get JOIN/PART/command info
             if (!isWhisperBot)
             {
+                /*
+                String preparedText = "PRIVMSG " + channel + " :.me brandishes +3 banhammer\r\n";
+                Console.WriteLine(preparedText);
+                output.Write(preparedText);
+                output.Flush();
+                */
+
                 String lastResponse = "CAP REQ :twitch.tv/commands \r\n";
                 Console.WriteLine(":\tGreyb0t sent: " + lastResponse);
                 output.Write(
@@ -163,7 +195,23 @@ namespace GreyB0t
                 lastResponse
                 );
                 output.Flush();
+
+                lastResponse = ".color cadetblue";
+                String preparedText = "PRIVMSG " + channel + " :" + lastResponse + " \r\n";
+                output.Write(preparedText);
+                output.Flush();
+                //www.twitch.tv/warwitchtv/profile
             }
+            else
+            {
+                String lastResponse = "CAP REQ :twitch.tv/commands \r\n";
+                Console.WriteLine(":\tGreyb0t sent: " + lastResponse);
+                output.Write(
+                lastResponse
+                );
+                output.Flush();
+            }
+            
 
             //write outputs on a separate thread(.5 sec timer)
             Thread thread = new Thread(WriteOut);

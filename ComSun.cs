@@ -6,15 +6,15 @@ using System.IO;
 
 namespace GreyB0t
 {
-    class ComDance : Command
+    class ComSun : Command
     {
 
-        public ComDance()
+        public ComSun()
         {
             theMsg = null;
             invocation = new Dictionary<String,String>(); ;
             //define the Dance commands
-            invocation.Add("!dance", "Does a little jig");
+            invocation.Add("!sun", "notices sun");
         }
 
         public override void ParseCommand(Message m)
@@ -23,21 +23,18 @@ namespace GreyB0t
             {
                 if(m.tell.StartsWith(kvp.Key))
                 {
-                    String returnMsg = "NULL msg from ComDance";
-                    //do some dancy logic
-                    returnMsg = "/me dances: :D-<";
+                    String returnMsg = "NULL msg from ComSun";
+                    //notices sun
+                    returnMsg = "/me notices sun 0_0";
                     MessageProcessor.pendingAllspeaks.Enqueue(returnMsg);
-                    returnMsg = "/me dances: :D|-<";
-                    MessageProcessor.pendingAllspeaks.Enqueue(returnMsg);
-                    returnMsg = "/me dances: :D/-<";
-                    MessageProcessor.pendingAllspeaks.Enqueue(returnMsg);
+                    return;
                 }
             }
         }
 
         public override void Print(String s)
         {
-            Console.WriteLine(":\tGreyb0t: !dance " + s);
+            Console.WriteLine(":\tGreyb0t: !sun " + s);
         }
 
         public override void CleanUp()

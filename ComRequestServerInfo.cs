@@ -53,16 +53,14 @@ namespace GreyB0t
                     if (isActive == false)
                     {
                         //PM them that there is no server info
-                        returnMsg = "pssst! There is no serverinfo available at this time!";
-                        KeyValuePair<String, String> whisperKvp = new KeyValuePair<string, string>(returnMsg, m.username);
-                        MessageProcessor.pendingWhispers.Enqueue(whisperKvp);
+                        returnMsg = "There is no serverinfo available at this time!";
+                        MessageProcessor.pendingAllspeaks.Enqueue(returnMsg);
                     }
                     else
                     {
                         //PM them that there is no server info
-                        returnMsg = "pssst! You can join Tuesday at: "+topic;
-                        KeyValuePair<String, String> whisperKvp = new KeyValuePair<string, string>(returnMsg, m.username);
-                        MessageProcessor.pendingWhispers.Enqueue(whisperKvp);
+                        returnMsg = "You can join Tuesday at: "+topic;
+                        MessageProcessor.pendingAllspeaks.Enqueue(returnMsg);
                     }
                 }
             }

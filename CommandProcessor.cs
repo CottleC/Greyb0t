@@ -49,8 +49,21 @@ namespace GreyB0t
             tempList.Add(uptime);
             ComDance dance = new ComDance();
             tempList.Add(dance);
+            ComLurk lurk = new ComLurk();
+            tempList.Add(lurk);
             ComPermit permit = new ComPermit();
             tempList.Add(permit);
+            ComSay say = new ComSay();
+            tempList.Add(say);
+            ComPoinks poinks = new ComPoinks();
+            tempList.Add(poinks);
+            ComSun sun = new ComSun();
+            tempList.Add(sun);
+            ComTest test = new ComTest();
+            tempList.Add(test);
+            //ComHunt hunt = new ComHunt();
+            //dont add hunt because it loads from a file if necessary
+            //tempList.Add(hunt);
             
             //update this some other time
 
@@ -64,9 +77,12 @@ namespace GreyB0t
 
 
             EventProcessor.AddGBEvent(new GBEventGiveAwaySentinel(10));
+            EventProcessor.AddGBEvent(new GBEventHuntFile(600));//10 minutes
             EventProcessor.AddGBEvent(new GBEventVoteSentinel(10));
             EventProcessor.AddGBEvent(new GBEventServerSentinel(10));
-            EventProcessor.AddGBEvent(new GBEventFreshenMods(10));
+            EventProcessor.AddGBEvent(new GBEventFreshenMods(60));
+            EventProcessor.AddGBEvent(new GBEventPeriodicMessages(10));
+            EventProcessor.AddGBEvent(new GBEventChannelRank(60));
             //ProcessVotes(); //loads in all active votes (should only be 1
             //ProcessGiveAways();
             
@@ -121,7 +137,21 @@ namespace GreyB0t
             Console.WriteLine(path + "cnxn_std.json");
             File.WriteAllText(path + "cnxn_std.json", jsonString);
             */
+
             
+            //Builds a Poinks file
+            /*
+            ComPoinks p = new ComPoinks();
+            p.poinks.Add("goatFight", new KeyValuePair<uint, String>(0,"knob"));
+            string jsonString = Newtonsoft.Json.JsonConvert.SerializeObject(p);
+            Console.WriteLine(path + "poinksDB.json");
+            File.WriteAllText(path + "poinksDB.json", jsonString);
+            */
+            
+            //builds a periodic message
+            //PeriodicMessage pmsg = new PeriodicMessage("Hi! I'm a test periodic message! I will repeat in 5 minutes.",5,00,true);
+            //pmsg.CleanUp();
+
         }
 
         //overwrite an existing command or add a new one
@@ -143,35 +173,46 @@ namespace GreyB0t
 
         private static String ExtractCommand()
         {
-            if (theMsg != null)
+            try
             {
-                if (theMsg.isAMessage)
+                if (theMsg != null)
                 {
-                    bool foundCommand = false;
-                    foreach (KeyValuePair<String, Command> kvp in commandList)
+                    if (theMsg.isAMessage)
                     {
-                        string[] thisTell = theMsg.tell.ToString().Split(' ');
-                        if (thisTell.Count() > 0)
+                        bool foundCommand = false;
+                        foreach (KeyValuePair<String, Command> kvp in commandList)
                         {
-                            if (thisTell[0].Equals(kvp.Key))
+                            string[] thisTell = theMsg.tell.ToString().Split(' ');
+                            if (thisTell.Count() > 0)
                             {
-                                Console.WriteLine(":\tGreyb0t: received command: " + kvp.Key + " from user, " + theMsg.username);
-                                kvp.Value.ParseCommand(theMsg);
-                                foundCommand = true;
-                            }
-                            else if (kvp.Key.Equals("*"))
-                            {
-                                //Console.WriteLine(":\tGreyb0t: received command: " + kvp.Key + " from user, " + theMsg.username);
-                                kvp.Value.ParseCommand(theMsg);
-                                foundCommand = true;
+                                if (thisTell[0].Equals(kvp.Key))
+                                {
+                                    Console.WriteLine(":\tGreyb0t: received command: " + kvp.Key + " from user, " + theMsg.username);
+                                    kvp.Value.ParseCommand(theMsg);
+                                    foundCommand = true;
+                                }
+                                else if (kvp.Key.Equals("*"))
+                                {
+                                    //Console.WriteLine(":\tGreyb0t: received command: " + kvp.Key + " from user, " + theMsg.username);
+                                    kvp.Value.ParseCommand(theMsg);
+                                    foundCommand = true;
+                                }
                             }
                         }
+                        if ((foundCommand == false) && theMsg.tell.Count() > 0 && theMsg.tell.StartsWith("!"))
+                        {
+                            MessageProcessor.pendingWhispers.Enqueue(new KeyValuePair<String, String>("Psst!... I don't know that command yet", theMsg.username));
+                        }
                     }
-                    if ((foundCommand == false) && theMsg.tell.Count() > 0 && theMsg.tell.StartsWith("!"))
+                    else if (theMsg.isCAPS)
                     {
-                        MessageProcessor.pendingWhispers.Enqueue(new KeyValuePair<String, String>("Psst!... I don't know that command yet", theMsg.username));
+                        ChannelInfo.CAPSUserUpdate(theMsg);
                     }
                 }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Exception in ExtractCommand");
             }
             return "";
         }

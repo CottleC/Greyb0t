@@ -120,7 +120,7 @@ namespace GreyB0t
                             case "!commercial":
                                 break;
                             case "!host":
-                                if (CommandProcessor.superUsers.Contains(m.username) || CommandProcessor.megaUsers.Contains(m.username))
+                                if (CommandProcessor.megaUsers.Contains(m.username))
                                 {
                                     if (numArgs > 1)
                                     {
@@ -134,7 +134,7 @@ namespace GreyB0t
                                 }
                                 break;
                             case "!unhost":
-                                if (CommandProcessor.superUsers.Contains(m.username) || CommandProcessor.megaUsers.Contains(m.username))
+                                if (CommandProcessor.megaUsers.Contains(m.username))
                                 {
                                     returnMsg = ".unhost ";
                                     MessageProcessor.pendingAllspeaks.Enqueue(returnMsg);

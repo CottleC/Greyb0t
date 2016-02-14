@@ -22,21 +22,31 @@ namespace GreyB0t
             foreach(KeyValuePair<String, String> kvp in invocation)
             {
                 Console.WriteLine(m.tell);
-                if(m.tell.StartsWith(kvp.Key))
+                if(m.tell.StartsWith(kvp.Key) && (m.isAWhisper==false))
                 {
                     Console.WriteLine(m.username + " requested a pm");
                     String returnMsg = "NULL msg from ComPM";
-                    //do some rolly logic
-                    returnMsg = "pssst! Hi!";
+
+                    returnMsg = "pssst! Hi! you requested a whisper!";
                     KeyValuePair<String, String> whisperKvp = new KeyValuePair<string, string>(returnMsg, m.username);
                     MessageProcessor.pendingWhispers.Enqueue(whisperKvp);
+                }
+                else if (m.tell.StartsWith(kvp.Key) && (m.isAWhisper == true))
+                {
+                    Console.WriteLine(m.username + " requested a pm");
+                    String returnMsg = "NULL msg from ComPM";
+
+                    returnMsg = "pssst! Hi!, You whispered me!";
+                    KeyValuePair<String, String> whisperKvp = new KeyValuePair<string, string>(returnMsg, m.username);
+                    MessageProcessor.pendingWhispers.Enqueue(whisperKvp);
+                    ChannelInfo.PrintUsers();
                 }
             }
         }
 
         public override void Print(String s)
         {
-            Console.WriteLine(":\tGreyb0t: !roll " + s);
+            Console.WriteLine(":\tGreyb0t: !pmme " + s);
         }
 
         public override void CleanUp()

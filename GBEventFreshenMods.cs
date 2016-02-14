@@ -18,6 +18,7 @@ namespace GreyB0t
             triggerSeconds = i;
             runTime = -1;
             breaker = false;//flag to stop the thread
+            RecurringThing();
         }
 
         public override void RecurringThing()

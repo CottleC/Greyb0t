@@ -16,7 +16,7 @@ namespace GreyB0t
             theMsg = null;
             invocation = new Dictionary<String,String>(); ;
             //define the Roll commands
-            invocation.Add("!rollthedice", "Rolls a very large die");
+            invocation.Add("!roll", "Rolls a very large die");
         }
 
         public ComRoll(int range)
@@ -25,7 +25,7 @@ namespace GreyB0t
             theMsg = null;
             invocation = new Dictionary<String, String>();
             //define the Roll commands
-            invocation.Add("!rollthedice", "Rolls a very large die");
+            invocation.Add("!roll", "Rolls a very large die");
         }
 
         public override void ParseCommand(Message m)
